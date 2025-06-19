@@ -21,7 +21,7 @@ if (isset($_GET['delete'])) {
 
 // Fetch patient list
 try {
-    $stmt = $pdo->query("SELECT * FROM patients ORDER BY id DESC");
+    $stmt = $pdo->query("SELECT * FROM patients ORDER BY id ASC");
     $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $patients = [];

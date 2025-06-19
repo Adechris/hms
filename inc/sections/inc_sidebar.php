@@ -59,86 +59,99 @@ try {
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="dashboard.php" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="dashboard.php" class="nav-item nav-link active text-white"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
              <div class="nav-item dropdown">
-                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Department</a>
+                 <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Department</a>
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a href="departmentlist.php" class="dropdown-item">Departments List</a>
-                    <a href="add_department.php" class="dropdown-item">Add Departments</a>
+                    <a href="departmentlist.php" class="dropdown-item text-white">Departments List</a>
+                    <a href="add_department.php" class="dropdown-item text-white">Add Departments</a>
                 </div>
+
+                <div class="nav-item dropdown ">
+              <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-user-tie me-2"></i>Staff Roles</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="roles.php" class="dropdown-item text-white">Roles</a>
+                    <a href="add_roles.php" class="dropdown-item text-white">Add Role</a>
+                </div>
+                <div class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Staff</a>
+
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="stafflist.php" class="dropdown-item text-white">Staff List</a>
+                    <a href="add_staff.php" class="dropdown-item text-white">Add Staff</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+             <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-user-injured me-2"></i>Patients</a>
+
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="patientlist.php" class="dropdown-item text-white">Patients List</a>
+                    <a href="add_patient.php" class="dropdown-item text-white">Add Patients</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-user-md me-2"></i>Doctors</a>
+
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="doctorlist.php" class="dropdown-item text-white">Doctors List</a>
+                    <a href="add_doctor.php" class="dropdown-item text-white">Add Doctors</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+           <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-calendar-check me-2"></i>Appointment</a>
+
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="appointmentlist.php" class="dropdown-item text-white">Appointment List</a>
+                    <a href="add_appointment.php" class="dropdown-item text-white">Add Appointments</a>
+                </div>
+            </div>
+
+               <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-bed me-2"></i>Wards</a>
+
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="wardlist.php" class="dropdown-item text-white">Wards List</a>
+                    <a href="add_ward.php" class="dropdown-item text-white">Add Wards</a>
+                </div>
+            </div>
 
                 <div class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user-tie me-2"></i>Staff Roles</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="roles.php" class="dropdown-item">Roles</a>
-                    <a href="add_roles.php" class="dropdown-item">Add Role</a>
-                </div>
-                <div class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Staff</a>
+            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-bed me-2"></i>Room</a>
 
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a href="stafflist.php" class="dropdown-item">Staff List</a>
-                    <a href="add_staff.php" class="dropdown-item">Add Staff</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user-injured me-2"></i>Patients</a>
-
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="patientlist.php" class="dropdown-item">Patients List</a>
-                    <a href="add_patient.php" class="dropdown-item">Add Patients</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user-md me-2"></i>Doctors</a>
-
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="doctorlist.php" class="dropdown-item">Doctors List</a>
-                    <a href="add_doctor.php" class="dropdown-item">Add Doctors</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-calendar-check me-2"></i>Appointment</a>
-
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="appointmentlist.php" class="dropdown-item">Appointment List</a>
-                    <a href="add_appointment.php" class="dropdown-item">Add Appointments</a>
+                    <a href="roomlist.php" class="dropdown-item text-white">Room List</a>
+                    <a href="add_room.php" class="dropdown-item text-white">Add Rooms</a>
                 </div>
             </div>
                 <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-bed me-2"></i>Room</a>
+             <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-hospital me-2"></i>Admission</a>
 
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a href="roomlist.php" class="dropdown-item">Room List</a>
-                    <a href="add_room.php" class="dropdown-item">Add Rooms</a>
-                </div>
-            </div>
-                <div class="nav-item dropdown">
-             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-hospital me-2"></i>Admission</a>
-
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="admissionlist.php" class="dropdown-item">Admission List</a>
-                    <a href="add_admission.php" class="dropdown-item">Add Admission </a>
+                    <a href="admissionlist.php" class="dropdown-item text-white">Admission List</a>
+                    <a href="add_admission.php" class="dropdown-item text-white">Add Admission </a>
                 </div>
             </div>
             <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-money-bill me-2"></i>Billing</a>
+        <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-money-bill me-2"></i>Billing</a>
 
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a href="#" class="dropdown-item">Generate</a>
-                    <a href="#" class="dropdown-item">Billing List</a>
+                    <a href="#" class="dropdown-item text-white">Generate</a>
+                    <a href="#" class="dropdown-item text-white">Billing List</a>
                 </div>
             </div>
             <div class="nav-item dropdown">
-           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-chart-bar me-2"></i>Reports</a>
+           <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-chart-bar me-2"></i>Reports</a>
 
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a href="add_report.php" class="dropdown-item">Add Report</a>
-                    <a href="report.php" class="dropdown-item">Medical Report List</a>
+                    <a href="add_report.php" class="dropdown-item text-white">Add Report</a>
+                    <a href="report.php" class="dropdown-item text-white">Medical Report List</a>
                 </div>
             </div>
-        <a href="logout.php" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"></i>Logout</a>
+   <a href="logout.php" class="nav-item nav-link text-white" onclick="return confirm('Are you sure you want to logout?');">
+    <i class="fa fa-sign-out-alt me-2"></i>Logout
+</a>
+
 
         </div>
     </nav>

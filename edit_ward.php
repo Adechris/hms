@@ -2,46 +2,46 @@
 session_start();
 require_once 'config/db.php';
 
-// ✅ Validate department ID
+// Fetch the ward by ID
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    $_SESSION['error'] = "Invalid department ID.";
-    header("Location: departmentlist.php");
+    $_SESSION['error'] = "Invalid ward ID.";
+    header("Location: wardlist.php");
     exit;
 }
 
-$dept_id = intval($_GET['id']);
+$ward_id = intval($_GET['id']);
 
-// ✅ Fetch existing department data
+// Fetch the ward details
 try {
-    $stmt = $pdo->prepare("SELECT * FROM departments WHERE id = ?");
-    $stmt->execute([$dept_id]);
-    $department = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM wards WHERE id = ?");
+    $stmt->execute([$ward_id]);
+    $ward = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$department) {
-        $_SESSION['error'] = "Department not found.";
-        header("Location: departmentlist.php");
+    if (!$ward) {
+        $_SESSION['error'] = "Ward not found.";
+        header("Location: wardlist.php");
         exit;
     }
 } catch (PDOException $e) {
     $_SESSION['error'] = "Database error: " . $e->getMessage();
-    header("Location: departmentlist.php");
+    header("Location: wardlist.php");
     exit;
 }
 
-// ✅ Handle form submission
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $description = trim($_POST['description']);
 
     if (!$name) {
-        $_SESSION['error'] = "Department name is required.";
+        $_SESSION['error'] = "Ward name is required.";
     } else {
         try {
-            $stmt = $pdo->prepare("UPDATE departments SET name = ?, description = ? WHERE id = ?");
-            $stmt->execute([$name, $description, $dept_id]);
+            $stmt = $pdo->prepare("UPDATE wards SET name = ?, description = ? WHERE id = ?");
+            $stmt->execute([$name, $description, $ward_id]);
 
-            $_SESSION['success'] = "Department updated successfully.";
-            header("Location: departmentlist.php");
+            $_SESSION['success'] = "Ward updated successfully.";
+            header("Location: wardlist.php");
             exit;
         } catch (PDOException $e) {
             $_SESSION['error'] = "Update failed: " . $e->getMessage();
@@ -53,11 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <?php include('inc/sections/inc_head.php'); ?>
-
 <body>
 <div class="container-fluid position-relative d-flex p-0">
     <?php include('inc/sections/inc_sidebar.php'); ?>
-
     <div class="content">
         <?php include('inc/sections/inc_navbar.php'); ?>
 
@@ -65,29 +63,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row g-4">
                 <div class="col-12">
                     <div class="bg-secondary rounded p-4">
-                        <h6 class="mb-4 text-white">Edit Department</h6>
+                        <h6 class="mb-4 text-white">Edit Ward</h6>
 
-                        <!-- ✅ Feedback -->
                         <?php if (isset($_SESSION['error'])): ?>
-                            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
                         <?php elseif (isset($_SESSION['success'])): ?>
-                            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                            <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
                         <?php endif; ?>
 
-                        <!-- ✅ Edit Form -->
                         <form method="POST">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="name" name="name" required
-                                       value="<?= htmlspecialchars($department['name']) ?>">
-                                <label for="name">Department Name</label>
+                                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($ward['name']) ?>" required>
+                                <label for="name">Ward Name</label>
                             </div>
 
                             <div class="form-floating mb-4">
-                                <textarea class="form-control" id="description" name="description" style="height: 120px;"><?= htmlspecialchars($department['description']) ?></textarea>
+                                <textarea class="form-control" id="description" name="description" style="height: 120px;"><?= htmlspecialchars($ward['description']) ?></textarea>
                                 <label for="description">Description</label>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Update Department</button>
+                            <button type="submit" class="btn btn-primary w-100">Update</button>
                         </form>
 
                     </div>
@@ -98,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<!-- JS -->
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/main.js"></script>

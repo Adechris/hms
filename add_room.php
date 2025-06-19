@@ -18,6 +18,14 @@ function generateRoomNumber($pdo) {
     return $room_number;
 }
 
+// Fetch available wards
+try {
+    $wards = $pdo->query("SELECT id, name FROM wards ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $_SESSION['error'] = "Failed to fetch wards: " . $e->getMessage();
+    $wards = [];
+}
+
 $generatedRoomNumber = generateRoomNumber($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -25,13 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['type'] ?? '';
     $bed_count = intval($_POST['bed_count']);
     $availability_status = $_POST['availability_status'] ?? 'Available';
+    $ward_id = $_POST['ward_id'] ?? null;
 
-    if (!$room_number || !$type || $bed_count <= 0) {
+    if (!$room_number || !$type || $bed_count <= 0 || !$ward_id) {
         $_SESSION['error'] = "Please fill all required fields correctly.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO rooms (room_number, type, bed_count, availability_status) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$room_number, $type, $bed_count, $availability_status]);
+            $stmt = $pdo->prepare("INSERT INTO rooms (room_number, type, bed_count, availability_status, ward_id) 
+                                   VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$room_number, $type, $bed_count, $availability_status, $ward_id]);
             $_SESSION['success'] = "Room added successfully.";
             header("Location: roomlist.php");
             exit;
@@ -52,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="container-fluid position-relative d-flex p-0">
     <?php include('inc/sections/inc_sidebar.php'); ?>
+
     <div class="content">
         <?php include('inc/sections/inc_navbar.php'); ?>
 
@@ -68,11 +79,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif; ?>
 
                         <form action="add_room.php" method="POST">
+                            <!-- Room Number -->
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="room_number" name="room_number" value="<?= $generatedRoomNumber ?>" required>
+                                <input type="text" class="form-control" id="room_number" name="room_number" value="<?= $generatedRoomNumber ?>" readonly required>
                                 <label for="room_number">Room Number</label>
                             </div>
 
+                            <!-- Ward -->
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="ward_id" name="ward_id" required>
+                                    <option value="" disabled selected>Select Ward</option>
+                                    <?php foreach ($wards as $ward): ?>
+                                        <option value="<?= $ward['id']; ?>"><?= htmlspecialchars($ward['name']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="ward_id">Ward</label>
+                            </div>
+
+                            <!-- Type -->
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="type" name="type" required>
                                     <option disabled selected>Select Type</option>
@@ -84,11 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label for="type">Room Type</label>
                             </div>
 
+                            <!-- Bed Count -->
                             <div class="form-floating mb-3">
                                 <input type="number" class="form-control" id="bed_count" name="bed_count" min="1" value="1" required>
                                 <label for="bed_count">Bed Count</label>
                             </div>
 
+                            <!-- Availability -->
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="availability_status" name="availability_status" required>
                                     <option value="Available" selected>Available</option>
@@ -108,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/main.js"></script>
