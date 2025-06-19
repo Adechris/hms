@@ -87,6 +87,9 @@ $staffList = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= htmlspecialchars($staff['department_name'] ?? 'N/A') ?></td>
                                         <td><?= htmlspecialchars($staff['status']) ?></td>
                                         <td>
+                                            <a href="edit_staff.php?id=<?= $staff['id'] ?>" class="btn btn-sm btn-warning">Edit</a> 
+                                        </td>
+                                        <td>
                                             <a href="stafflist.php?delete=<?= $staff['id'] ?>" 
                                                onclick="return confirm('Are you sure you want to delete this staff member?')"
                                                class="btn btn-sm btn-danger">Delete</a>

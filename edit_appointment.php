@@ -9,9 +9,7 @@ if (!$id) {
 }
 
 // Fetch appointment
-$stmt = $pdo->prepare("
-    SELECT * FROM appointments WHERE id = ?
-");
+$stmt = $pdo->prepare("SELECT * FROM appointments WHERE id = ?");
 $stmt->execute([$id]);
 $appointment = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -21,28 +19,25 @@ if (!$appointment) {
     exit();
 }
 
-// Fetch patients (for dropdown)
-$patientsStmt = $pdo->query("SELECT id, full_name FROM patients ORDER BY full_name ASC");
-$patients = $patientsStmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch patients and doctors
+$patients = $pdo->query("SELECT id, full_name FROM patients ORDER BY full_name ASC")->fetchAll(PDO::FETCH_ASSOC);
+$doctors = $pdo->query("SELECT id, full_name FROM doctors ORDER BY full_name ASC")->fetchAll(PDO::FETCH_ASSOC);
 
-$doctorsStmt = $pdo->query("SELECT id, full_name FROM doctors ORDER BY full_name ASC");
-$doctors = $doctorsStmt->fetchAll(PDO::FETCH_ASSOC);
-
-
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $patient_id = $_POST['patient_id'];
-    $doctor_name = $_POST['doctor_name'];
+    $doctor_id = $_POST['doctor_id'];
     $appointment_date = $_POST['appointment_date'];
     $status = $_POST['status'];
-    $note = $_POST['note'];
+    $reason = $_POST['reason'];
 
     $updateStmt = $pdo->prepare("
         UPDATE appointments 
-        SET patient_id=?, doctor_name=?, appointment_date=?, status=?, note=? 
-        WHERE id=?
+        SET patient_id = ?, doctor_id = ?, appointment_date = ?, status = ?, reason = ? 
+        WHERE id = ?
     ");
     $updateStmt->execute([
-        $patient_id, $doctor_name, $appointment_date, $status, $note, $id
+        $patient_id, $doctor_id, $appointment_date, $status, $reason, $id
     ]);
 
     $_SESSION['message'] = "Appointment updated successfully.";
@@ -77,18 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Patient</label>
                     </div>
 
-               <div class="form-floating mb-3">
-    <select class="form-select" name="doctor_name" required>
-        <option value="">Select Doctor</option>
-        <?php foreach ($doctors as $doc): ?>
-            <option value="<?= htmlspecialchars($doc['full_name']) ?>" <?= $appointment['doctor_name'] === $doc['full_name'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($doc['full_name']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <label>Doctor</label>
-</div>
-
+                    <div class="form-floating mb-3">
+                        <select class="form-select" name="doctor_id" required>
+                            <option value="">Select Doctor</option>
+                            <?php foreach ($doctors as $doc): ?>
+                                <option value="<?= $doc['id'] ?>" <?= $appointment['doctor_id'] == $doc['id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($doc['full_name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label>Doctor</label>
+                    </div>
 
                     <div class="form-floating mb-3">
                         <input type="datetime-local" class="form-control" name="appointment_date" value="<?= date('Y-m-d\TH:i', strtotime($appointment['appointment_date'])) ?>" required>
@@ -105,27 +99,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="form-floating mb-4">
-                        <textarea class="form-control" name="note" style="height: 150px;"><?= htmlspecialchars($appointment['note']) ?></textarea>
-                        <label>Note</label>
+                        <textarea class="form-control" name="reason" style="height: 150px;"><?= htmlspecialchars($appointment['reason']) ?></textarea>
+                        <label>Reason</label>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Update Appointment</button>
+                    <button type="submit" class="btn btn-primary w-100">Update</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script src="js/main.js"></script>
 </div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

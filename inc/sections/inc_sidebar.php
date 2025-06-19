@@ -140,6 +140,16 @@ try {
                     <a href="#" class="dropdown-item text-white">Billing List</a>
                 </div>
             </div>
+
+                 <div class="nav-item dropdown">
+                 <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-money-bill me-2"></i>Payrolls</a>
+
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="add_payroll.php" class="dropdown-item text-white">Generate Payrolls</a>
+                    <a href="#" class="dropdown-item text-white">View Payrolls List</a>
+                </div>
+            </div>
+
             <div class="nav-item dropdown">
            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-chart-bar me-2"></i>Reports</a>
 

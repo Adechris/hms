@@ -299,6 +299,10 @@ CREATE TABLE payrolls (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE
 );
+ALTER TABLE payrolls
+ADD COLUMN doctor_id INT NULL AFTER staff_id,
+ADD CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE;
+
 
 -- Lab Tests
 CREATE TABLE lab_tests (
