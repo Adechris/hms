@@ -48,6 +48,11 @@ $payrolls = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
                     <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
                 <?php endif; ?>
 
+                <a href="export_payroll_csv.php" class="btn btn-sm btn-success mb-3">
+    <i class="fa fa-file-csv me-1"></i> Export to CSV
+</a>
+
+
                 <div class="table-responsive">
                     <table class="table table-bordered text-white">
                         <thead>
@@ -106,7 +111,16 @@ $payrolls = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/main.js"></script>
+     <!-- JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

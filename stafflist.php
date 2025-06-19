@@ -53,7 +53,12 @@ $staffList = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
                         <?php endif; ?>
 
-                        <a href="add_staff.php" class="btn btn-primary mb-3">+ Add New Staff</a>
+                        <!-- <a href="add_staff.php" class="btn btn-success mb-3 text-end">+ Add New Staff</a> -->
+
+                           <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h6 class="text-white"></h6>
+                    <a href="add_staff.php" class="btn btn-light btn-sm">Add Staff</a>
+                </div>
 
                         <div class="table-responsive">
                             <table class="table text-white table-bordered">

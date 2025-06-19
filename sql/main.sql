@@ -105,6 +105,10 @@ CREATE TABLE users (
   picture VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE users 
+ADD COLUMN reset_token VARCHAR(255) DEFAULT NULL,
+ADD COLUMN reset_expires_at DATETIME DEFAULT NULL;
+
 
 -- Departments
 CREATE TABLE departments (
@@ -302,6 +306,9 @@ CREATE TABLE payrolls (
 ALTER TABLE payrolls
 ADD COLUMN doctor_id INT NULL AFTER staff_id,
 ADD CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE;
+ALTER TABLE payrolls 
+MODIFY staff_id INT NULL,
+MODIFY doctor_id INT NULL;
 
 
 -- Lab Tests

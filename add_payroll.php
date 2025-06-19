@@ -2,31 +2,44 @@
 session_start();
 require_once 'config/db.php';
 
-// Fetch all staff and doctors
+// Fetch staff and doctors
 $staffList = $pdo->query("SELECT id, full_name FROM staff ORDER BY full_name")->fetchAll(PDO::FETCH_ASSOC);
 $doctorList = $pdo->query("SELECT id, full_name FROM doctors ORDER BY full_name")->fetchAll(PDO::FETCH_ASSOC);
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $roleType = $_POST['role_type'];
-    $salary_month = $_POST['salary_month'];
-    $base_salary = $_POST['base_salary'];
-    $bonuses = $_POST['bonuses'];
-    $deductions = $_POST['deductions'];
+    $roleType = $_POST['role_type'] ?? '';
+    $salary_month = $_POST['salary_month'] ?? '';
+    $base_salary = floatval($_POST['base_salary'] ?? 0);
+    $bonuses = floatval($_POST['bonuses'] ?? 0);
+    $deductions = floatval($_POST['deductions'] ?? 0);
     $net_salary = $base_salary + $bonuses - $deductions;
 
-    $staff_id = $roleType === 'staff' ? $_POST['staff_id'] : null;
-    $doctor_id = $roleType === 'doctor' ? $_POST['doctor_id'] : null;
+    $staff_id = ($roleType === 'staff') ? $_POST['staff_id'] : null;
+    $doctor_id = ($roleType === 'doctor') ? $_POST['doctor_id'] : null;
 
-    $stmt = $pdo->prepare("INSERT INTO payrolls 
-        (staff_id, doctor_id, salary_month, base_salary, bonuses, deductions, net_salary, payment_status) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')");
-    
-    $stmt->execute([$staff_id, $doctor_id, $salary_month, $base_salary, $bonuses, $deductions, $net_salary]);
+    // Validation: Ensure the correct ID is selected
+    if (($roleType === 'staff' && !$staff_id) || ($roleType === 'doctor' && !$doctor_id)) {
+        $_SESSION['error'] = "Please select a valid staff or doctor.";
+        header("Location: add_payroll.php");
+        exit();
+    }
 
-    $_SESSION['success'] = "Payroll added successfully.";
-    header("Location: payrolllist.php");
-    exit();
+    try {
+        $stmt = $pdo->prepare("INSERT INTO payrolls 
+            (staff_id, doctor_id, salary_month, base_salary, bonuses, deductions, net_salary, payment_status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')");
+
+        $stmt->execute([$staff_id, $doctor_id, $salary_month, $base_salary, $bonuses, $deductions, $net_salary]);
+
+        $_SESSION['success'] = "Payroll added successfully.";
+        header("Location: payrolllist.php");
+        exit();
+    } catch (PDOException $e) {
+        $_SESSION['error'] = "Error adding payroll: " . $e->getMessage();
+        header("Location: add_payroll.php");
+        exit();
+    }
 }
 ?>
 
@@ -43,7 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bg-secondary p-4 rounded">
         <h4 class="mb-4 text-white">Add Payroll</h4>
 
-        <?php if (isset($_SESSION['success'])): ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <?php elseif (isset($_SESSION['success'])): ?>
             <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
         <?php endif; ?>
 
@@ -103,13 +118,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
-document.getElementById('roleType').addEventListener('change', function() {
+document.getElementById('roleType').addEventListener('change', function () {
     document.getElementById('staffSelect').style.display = this.value === 'staff' ? 'block' : 'none';
     document.getElementById('doctorSelect').style.display = this.value === 'doctor' ? 'block' : 'none';
 });
 </script>
 
- 
 </div></div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

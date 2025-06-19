@@ -42,9 +42,9 @@ if (isset($_SESSION['user_id'])) {
                     <span class="d-none d-lg-inline-flex"><?= htmlspecialchars($userName) ?></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="profile.php" class="dropdown-item">My Profile</a>
-                    <a href="settings.php" class="dropdown-item">Settings</a>
-                    <a href="logout.php" class="dropdown-item" onclick="return confirm('Are you sure you want to logout?')">Log Out</a>
+                    <a href="profile.php" class="dropdown-item text-white">My Profile</a>
+                    <a href="settings.php" class="dropdown-item text-white">Settings</a>
+                    <a href="logout.php" class="dropdown-item text-primary" onclick="return confirm('Are you sure you want to logout?')">Log Out</a>
                 </div>
             </div>
         <?php endif; ?>

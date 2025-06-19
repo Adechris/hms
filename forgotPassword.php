@@ -5,22 +5,38 @@ require_once("./config/db.php");
 $message = "";
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $_POST["email"];
+function generateToken($length = 32) {
+    return bin2hex(random_bytes($length));
+}
 
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-  $stmt->execute([$email]);
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST["email"]);
 
-  if ($user) {
-    // Simulate password reset logic (e.g., email link with token)
-    // You can generate a token and save it in DB, then email the reset link
-    $message = "A password reset link has been sent to your email.";
-  } else {
-    $error = "No account found with that email address.";
-  }
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $token = generateToken();
+        $expiry = date('Y-m-d H:i:s', time() + 3600); // 1 hour validity
+
+        // Save token and expiry in DB
+        $update = $pdo->prepare("UPDATE users SET reset_token = ?, reset_expires_at = ? WHERE id = ?");
+        $update->execute([$token, $expiry, $user['id']]);
+
+        // Create reset link
+        $resetLink = "http://localhost/hms/reset_password.php?token=$token";
+
+        // Simulate sending email (for real: use PHPMailer or mail())
+        // mail($email, "Reset Your Password", "Click the link: $resetLink");
+
+        $message = "A password reset link has been sent to your email: <br><code>$resetLink</code>";
+    } else {
+        $error = "No account found with that email address.";
+    }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

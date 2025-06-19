@@ -146,7 +146,7 @@ try {
 
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="add_payroll.php" class="dropdown-item text-white">Generate Payrolls</a>
-                    <a href="#" class="dropdown-item text-white">View Payrolls List</a>
+                    <a href="payrolllist.php" class="dropdown-item text-white">View Payrolls List</a>
                 </div>
             </div>
 
