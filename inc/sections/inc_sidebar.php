@@ -47,7 +47,7 @@ try {
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
                 <img class="rounded-circle" 
-                     src="uploads/<?php echo htmlspecialchars($user_picture); ?>" 
+                    src="uploads/users/<?php echo htmlspecialchars($user_picture); ?>" 
                      alt="User Profile" 
                      style="width: 40px; height: 40px; object-fit: cover;"
                      onerror="this.src='img/user.jpg'">
@@ -59,7 +59,7 @@ try {
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="dashboard.php" class="nav-item nav-link active text-white"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="home.php" class="nav-item nav-link   text-white"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
              <div class="nav-item dropdown">
                  <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Department</a>

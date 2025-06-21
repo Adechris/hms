@@ -38,12 +38,14 @@ if (isset($_SESSION['user_id'])) {
         <?php if ($user): ?>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="<?= htmlspecialchars($userPic) ?>" alt="User" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle me-lg-2" 
+                  src="uploads/users/<?php echo htmlspecialchars($user_picture); ?>"
+                     alt="User" style="width: 40px; height: 40px;">
                     <span class="d-none d-lg-inline-flex"><?= htmlspecialchars($userName) ?></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                     <a href="profile.php" class="dropdown-item text-white">My Profile</a>
-                    <a href="settings.php" class="dropdown-item text-white">Settings</a>
+                    <a href="change-password.php" class="dropdown-item text-white">Change Password</a>
                     <a href="logout.php" class="dropdown-item text-primary" onclick="return confirm('Are you sure you want to logout?')">Log Out</a>
                 </div>
             </div>

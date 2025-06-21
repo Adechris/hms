@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 require_once 'config/db.php';
 
@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$full_name || !$gender || !$dob || !$address || !$emergency_contact_name || !$emergency_contact_phone) {
         $_SESSION['error'] = "Please fill all required fields.";
+        header("Location: add_patient.php");
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO patients (
@@ -32,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         } catch (PDOException $e) {
             $_SESSION['error'] = "Database error: " . $e->getMessage();
+            header("Location: add_patient.php");
         }
     }
-
-    header("Location: add_patient.php");
     exit;
 }
 ?>
+
 
 
 <!DOCTYPE html>

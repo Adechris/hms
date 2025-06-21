@@ -7,13 +7,13 @@ if (!isset($_SESSION["user_id"])) {
     exit;
 }
 
-// Fetch counts
+ 
 $totalPatients = $pdo->query("SELECT COUNT(*) FROM patients")->fetchColumn();
 $totalDoctors = $pdo->query("SELECT COUNT(*) FROM doctors")->fetchColumn();
 $totalStaff = $pdo->query("SELECT COUNT(*) FROM staff")->fetchColumn();
 $totalAppointments = $pdo->query("SELECT COUNT(*) FROM appointments")->fetchColumn();
 
-// Fetch recent data for table
+ 
 $recentAdmissions = $pdo->query("
     SELECT a.id, p.full_name AS patient_name, r.room_number, a.admission_date, a.status
     FROM admissions a
@@ -46,15 +46,14 @@ $recentBills = $pdo->query("
 <?php include('inc/sections/inc_head.php'); ?>
 <body id="body" class="dark-mode">
 
-<div class="container-fluid position-relative d-flex p-0">
+<div class="container-fluid position-relative d-flex p-0 h-100">
 
 <?php include('inc/sections/inc_sidebar.php'); ?>
 
 <div class="content">
     <?php include('inc/sections/inc_navbar.php'); ?>
 
-    <!-- Summary Cards -->
- <!-- Summary Cards (Improved Layout) -->
+ 
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <?php
@@ -81,7 +80,7 @@ $recentBills = $pdo->query("
 </div>
 
 
-    <!-- Table Section -->
+   
     <div class="container-fluid pt-4 px-4">
         <div class="row">
             <div class="col-12">
@@ -143,8 +142,24 @@ $recentBills = $pdo->query("
             </div>
         </div>
     </div>
+ 
+<div class="container-fluid pt-4 px-4 mb-5">
+    
+           <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0 text-center">Calendar</h6>
+                                <a href="">Show All</a>
+                            </div>
+                            <div id="calender"></div>
+                        </div>
+ 
+</div>
+
 
 </div>
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -158,28 +173,6 @@ $recentBills = $pdo->query("
 
 
 
-<script>
-    const body = document.getElementById('body'); // Your body should have id="body"
-    const toggle = document.getElementById('themeToggle');
-
-    if (localStorage.getItem('theme') === 'light') {
-        body.classList.remove('dark-mode');
-        body.classList.add('light-mode');
-        toggle.checked = true;
-    }
-
-    toggle.addEventListener('change', function () {
-        if (this.checked) {
-            body.classList.remove('dark-mode');
-            body.classList.add('light-mode');
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.classList.remove('light-mode');
-            body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-</script>
 
 
 </body>

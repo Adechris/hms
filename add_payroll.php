@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group mb-3">
-                <label class="text-white">Salary Month</label>
+                <label class="text-white">Salary Month / Year</label>
                 <input type="month" class="form-control" name="salary_month" required>
             </div>
 

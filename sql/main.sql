@@ -1,96 +1,4 @@
--- CREATE DATABASE IF NOT EXISTS hms_db;
--- USE hms_db;
-
--- CREATE TABLE users (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   full_name VARCHAR(100) NOT NULL,
---   email VARCHAR(100) NOT NULL UNIQUE,
---   password VARCHAR(255) NOT NULL,
---   phone VARCHAR(15),
---   picture VARCHAR(255),
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
-
-
--- CREATE TABLE patients (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   full_name VARCHAR(100) NOT NULL,
---   email VARCHAR(100),
---   phone VARCHAR(20),
---   gender ENUM('Male', 'Female', 'Other'),
---   dob DATE,
---   address TEXT,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
-
--- CREATE TABLE doctors (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   full_name VARCHAR(100),
---   email VARCHAR(100),
---   phone VARCHAR(20),
---   specialization VARCHAR(100),
---   picture VARCHAR(255),
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
-
-
-
--- CREATE TABLE appointments (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   patient_id INT NOT NULL,
---   doctor_name VARCHAR(100),
---   appointment_date DATETIME,
---   status ENUM('Pending', 'Completed', 'Cancelled') DEFAULT 'Pending',
---   note TEXT,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
--- );
-
-
-
--- CREATE TABLE medical_records (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   patient_id INT NOT NULL,
---   diagnosis TEXT,
---   treatment TEXT,
---   doctor_notes TEXT,
---   record_date DATE,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
--- );
-
-
--- CREATE TABLE prescriptions (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   patient_id INT NOT NULL,
---   medicines TEXT,
---   dosage TEXT,
---   prescribed_by VARCHAR(100),
---   date_prescribed DATE,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
--- );
-
-
--- CREATE TABLE bills (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   patient_id INT NOT NULL,
---   total_amount DECIMAL(10, 2) NOT NULL,
---   status ENUM('Unpaid', 'Paid') DEFAULT 'Unpaid',
---   issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
--- );
-
-
--- CREATE TABLE payments (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   bill_id INT NOT NULL,
---   amount_paid DECIMAL(10, 2),
---   payment_method VARCHAR(50),
---   payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE CASCADE
--- );
-
+ 
 
 CREATE DATABASE IF NOT EXISTS hms_db;
 USE hms_db;
@@ -104,6 +12,13 @@ CREATE TABLE users (
   phone VARCHAR(15),
   picture VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  -- status ENUM('Active', 'Inactive') DEFAULT 'Active',
+  -- role ENUM('Admin', 'Staff') DEFAULT 'Staff',
+  -- last_login TIMESTAMP NULL,
+  -- last_login_ip VARCHAR(45) DEFAULT NULL,
+  -- UNIQUE (email, phone)
+
 );
 ALTER TABLE users 
 ADD COLUMN reset_token VARCHAR(255) DEFAULT NULL,
@@ -125,6 +40,16 @@ CREATE TABLE staff_roles (
   description TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    start_date DATETIME NOT NULL,
+    end_date DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Staff
 CREATE TABLE staff (
